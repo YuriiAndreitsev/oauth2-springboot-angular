@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Cliente } from './cliente';
-import { ClienteService } from './cliente.service';
+import {Component, OnInit} from '@angular/core';
+import {Cliente} from './cliente';
+import {ClienteService} from './cliente.service';
 import swal from 'sweetalert2'
 
 @Component({
@@ -11,7 +11,8 @@ export class ClientesComponent implements OnInit {
 
   clientes: Cliente[];
 
-  constructor(private clienteService: ClienteService) { }
+  constructor(private clienteService: ClienteService) {
+  }
 
   ngOnInit() {
     this.clienteService.getClientes().subscribe(
@@ -35,7 +36,6 @@ export class ClientesComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-
         this.clienteService.delete(cliente.id).subscribe(
           response => {
             this.clientes = this.clientes.filter(cli => cli !== cliente)
@@ -46,9 +46,7 @@ export class ClientesComponent implements OnInit {
             )
           }
         )
-
       }
-    })
+    });
   }
-
 }

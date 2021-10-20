@@ -4,13 +4,23 @@ import {Observable} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
 import {Router} from "@angular/router";
-import { _throw as throwError } from 'rxjs/observable/throw';
+import {_throw as throwError} from 'rxjs/observable/throw';
+import {AuthService} from "../users/auth.service";
+
 @Injectable()
 export class ClienteService {
   private urlEndPoint: string = 'http://localhost:8080/api/clientes';
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {
+  }
+
+  private agregateAuthHeader() {
+    let token = this.authService.tokenCheck;
+    if (token != null) {
+      return this.httpHeaders.append("Authorization", "Bearer " + token);
+    }
+    return this.httpHeaders;
   }
 
   private isUnauthorized(e): boolean {
